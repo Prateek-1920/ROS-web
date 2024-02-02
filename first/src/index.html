@@ -1,0 +1,113 @@
+<!-- <!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/eventemitter2@6.4.9/lib/eventemitter2.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/roslib@1/build/roslib.min.js"></script>
+  <script type="text/javascript">
+    // Connecting to ROS
+    var ros = new ROSLIB.Ros({
+      url: 'ws://localhost:9090'
+    });
+
+    ros.on('connection', function () {
+      console.log('Connected to websocket server.');
+    });
+
+    ros.on('error', function (error) {
+      console.log('Error connecting to websocket server: ', error);
+    });
+
+    ros.on('close', function () {
+      console.log('Connection to websocket server closed.');
+    });
+
+    // Subscribing to a Topic
+    var listener = new ROSLIB.Topic({
+      ros: ros,
+      name: '/listener',
+      messageType: 'std_msgs/String'
+    });
+
+    listener.subscribe(function (message) {
+      console.log('Received message on ' + listener.name + ': ' + message.data);
+
+      // Update the HTML content with the received message
+      document.getElementById('messageContainer').innerHTML = 'Received message: ' + message.data;
+    });
+  </script>
+</head>
+
+<body>
+  <h1>Simple roslib Example</h1>
+  <p>Check your Web Console for output.</p>
+
+  Container to display the received message -->
+  <!-- <div id="messageContainer"></div>
+</body>
+</html> -->
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/eventemitter2@6.4.9/lib/eventemitter2.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/roslib@1/build/roslib.min.js"></script>
+  <script type="text/javascript">
+    // Connecting to ROS
+    var ros = new ROSLIB.Ros({
+      url: 'ws://localhost:9090'
+    });
+
+    ros.on('connection', function () {
+      console.log('Connected to websocket server.');
+    });
+
+    ros.on('error', function (error) {
+      console.log('Error connecting to websocket server: ', error);
+    });
+
+    ros.on('close', function () {
+      console.log('Connection to websocket server closed.');
+    });
+
+    // Subscribing to IMU Topic
+    var imuListener = new ROSLIB.Topic({
+      ros: ros,
+      name: '/imu_data/quat',
+      messageType: 'sensor_msgs/Imu'
+    });
+
+    imuListener.subscribe(function (message) {
+      console.log('Received IMU message on ' + imuListener.name + ':', message);
+
+      // Extract relevant data from the IMU message
+      var orientation = message.orientation;
+      var angularVelocity = message.angular_velocity;
+      var linearAcceleration = message.linear_acceleration;
+
+      // Display the extracted data on the webpage
+      updateIMUValues(orientation, angularVelocity, linearAcceleration);
+    });
+
+    // Function to update HTML content with IMU values
+    function updateIMUValues(orientation, angularVelocity, linearAcceleration) {
+      document.getElementById('orientation').innerHTML = 'Orientation: ' + JSON.stringify(orientation);
+      document.getElementById('angularVelocity').innerHTML = 'Angular Velocity: ' + JSON.stringify(angularVelocity);
+      document.getElementById('linearAcceleration').innerHTML = 'Linear Acceleration: ' + JSON.stringify(linearAcceleration);
+    }
+  </script>
+</head>
+
+<body>
+  <h1>IMU Data Display</h1>
+  <p>Check your Web Console for output.</p>
+
+  <!-- Containers to display the IMU values -->
+  <div id="orientation"></div>
+  <div id="angularVelocity"></div>
+  <div id="linearAcceleration"></div>
+</body>
+</html>
